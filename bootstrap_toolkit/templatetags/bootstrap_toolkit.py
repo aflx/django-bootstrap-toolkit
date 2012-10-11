@@ -61,12 +61,13 @@ def bootstrap_javascript_tag(name):
     return u'<script src="%s"></script>' % bootstrap_javascript_url(name)
 
 @register.filter
-def as_bootstrap(form_or_field, layout='vertical,false'):
+def as_bootstrap(form_or_field, layout='vertical,float'):
     """
     Render a field or a form according to Bootstrap guidelines
     """
     params = split(layout, ",")
     layout = str(params[0]).lower()
+    float = False
 
     if len(params) > 1:
         float = str(params[1]).lower() == "float"
