@@ -69,8 +69,10 @@ def as_bootstrap(form_or_field, layout='vertical,float'):
     layout = str(params[0]).lower()
     float = False
 
-    if len(params) > 1:
+    try:
         float = str(params[1]).lower() == "float"
+    except IndexError:
+        float = False
 
     if isinstance(form_or_field, BaseForm):
         return get_template("bootstrap_toolkit/form.html").render(
@@ -121,9 +123,9 @@ def bootstrap_input_type(field):
         widget = field.field.widget
     except:
         raise ValueError("Expected a Field, got a %s" % type(field))
-    input_type = getattr(widget.attrs, 'bootstrap_input_type', None)
+    input_type = getattr(widget, 'bootstrap_input_type', None)
     if input_type:
-        return input_type
+        return unicode(input_type)
     if isinstance(widget, TextInput):
         return u'text'
     if isinstance(widget, CheckboxInput):
